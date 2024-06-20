@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Role Management</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Role Management</h1>
+
+        <h2>Create User Data</h2>
+        <form action="/admin" method="POST" class="mb-4">
+            <input type="hidden" name="action" value="create">
+            <div class="form-group">
+                <label for="userid">User ID:</label>
+                <input type="text" id="userid" name="userid" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <input type="text" id="role" name="role" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Data</button>
+        </form>
+
+        {% if created_data %}
+        <h2>User Data:</h2>
+        <p>{{ created_data }}</p>
+        {% endif %}
+
+        <h2>Check User Data</h2>
+        <form action="/admin" method="POST" class="mb-4">
+            <input type="hidden" name="action" value="check">
+            <div class="form-group">
+                <label for="session_data">User data:</label>
+                <input type="text" id="session_data" name="session_data" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Check Data</button>
+        </form>
+
+        {% if checked_info %}
+        <h2>Decoded User Data:</h2>
+        <pre>{{ checked_info | safe }}</pre>
+        {% endif %}
+
+        {% if error %}
+        <h2>Error:</h2>
+        <p>{{ error }}</p>
+        {% endif %}
+    </div>
+	<div id="navbar">
+        <ul class="nav navbar-nav">
+            <li><a href="/data">Data List</a></li>
+        </ul>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

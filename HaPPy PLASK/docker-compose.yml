@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  flask:
+    build:
+      context: ./flask
+    ports:
+      - "5000:5000"
+    depends_on:
+      php:
+        condition: service_healthy
+
+  php:
+    build:
+      context: ./php
+    ports:
+      - "80:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: dbrootpass
+      MYSQL_DATABASE: db
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: dbpass
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pdbrootpass || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
